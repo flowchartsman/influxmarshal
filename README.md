@@ -30,9 +30,9 @@ not currently implemented in tip, but coming soon ref:
 https://go-review.googlesource.com/c/go/+/171337/ )
 
 The "tag" option specifies that the field is a tag, and the value will be
-converted to a string, following influxDB specifications. (ref:
+converted to a string, following InfluxDB specifications. (ref:
 https://docs.influxdata.com/influxdb/v1.7/concepts/key_concepts/#tag-value) If
-the "tag" option is not present the field will be treated as an influxDB field.
+the "tag" option is not present the field will be treated as an InfluxDB field.
 (ref:
 https://docs.influxdata.com/influxdb/v1.7/concepts/key_concepts/#field-value)
 
@@ -41,25 +41,25 @@ that a field with name "-" can still be generated using the tag "-,".
 
 Examples of struct field tags and their meanings:
 
-      // Value appears in influxDB as field with key "myName".
+      // Value appears in InfluxDB as field with key "myName".
       Value int `influx:"myName"`
 
-      // Value appears in influxDB as tag with key "myName" and stringified
+      // Value appears in InfluxDB as tag with key "myName" and stringified
       // integer representation
       Value int `influx:"myname,tag"`
 
-      // Value appears in influxDB as field with key "myName" but will be
+      // Value appears in InfluxDB as field with key "myName" but will be
       // ommitted if it has a zero value as defined above.
       Value int `influx:"myName,omitzero"`
 
-      // Value appears in influxDB as field with key "Value" (the default), but
+      // Value appears in InfluxDB as field with key "Value" (the default), but
     	 // will be ommitted if it has a zero value.
       Value int `influx:",omitzero"`
 
       // Value is ignored by this package.
       Value int `influx:"-"`
 
-      // Value appears in influxDB with field key "-".
+      // Value appears in InfluxDB with field key "-".
       Value int `influx:"-,"`
 
 Anonymous struct fields will be marshaled with their package-local type name
