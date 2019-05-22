@@ -25,9 +25,9 @@ name may be empty in order to specify options without overriding the default
 field name.
 
 The "omitzero" option specifies that the field should be omitted from the
-encoding if the field has an zero value as defined by reflect.IsZero() (note:
-not currently implemented in tip, but coming soon ref:
-https://go-review.googlesource.com/c/go/+/171337/ )
+encoding if the field has an zero value as defined by reflect.IsZero() Note:
+implemented internally until it lands in tip.
+(ref: https://go-review.googlesource.com/c/go/+/171337/ )
 
 The "tag" option specifies that the field is a tag, and the value will be
 converted to a string, following InfluxDB specifications. (ref:
