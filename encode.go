@@ -73,27 +73,27 @@ type InfluxValuer interface {
 //
 // Pointer values encode as the value pointed to.
 //
-func Marshal(v interface{}, measurement string) (*influx.Point, error) {
+func Marshal(v interface{}, measurement string) (influx.Point, error) {
 	val := reflect.ValueOf(v)
+
+	var p influx.Point
 
 	if val.Kind() == reflect.Ptr {
 		if val.IsNil() {
-			return nil, fmt.Errorf("value is nil")
+			return p, fmt.Errorf("value is nil")
 		}
 		val = val.Elem()
 	}
 
 	if val.Kind() != reflect.Struct {
 		// XXX: check interface here, first?
-		return nil, fmt.Errorf("not a struct")
+		return p, fmt.Errorf("not a struct")
 	}
 
-	p := &influx.Point{
-		Tags:        make(map[string]string),
-		Fields:      make(map[string]interface{}),
-		Time:        time.Now(),
-		Measurement: measurement,
-	}
+	p.Tags = make(map[string]string)
+	p.Fields = make(map[string]interface{})
+	p.Time = time.Now()
+	p.Measurement = measurement
 
 	// TODO: Rename
 	vType := val.Type()
@@ -139,7 +139,7 @@ func Marshal(v interface{}, measurement string) (*influx.Point, error) {
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64, reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Float32, reflect.Float64, reflect.String, reflect.Bool:
 			// we're good
 		default:
-			return nil, fmt.Errorf("Unsupported type for member %s", structField.Name)
+			return p, fmt.Errorf("Unsupported type for member %s", structField.Name)
 		}
 
 		if opts.tag {
